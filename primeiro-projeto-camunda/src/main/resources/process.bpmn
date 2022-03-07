@@ -32,29 +32,26 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_147rasj" sourceRef="Event_0hnd608" targetRef="Activity_1mhjtr5" />
     <bpmn:sequenceFlow id="Flow_01n374f" sourceRef="Activity_1mhjtr5" targetRef="Gateway_04kn9ty" />
-    <bpmn:sequenceFlow id="Flow_1kyit9w" sourceRef="Gateway_04kn9ty" targetRef="Activity_12j1uzx">
+    <bpmn:sequenceFlow id="Flow_1kyit9w" sourceRef="Gateway_04kn9ty" targetRef="Calculadora">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operacao=="adicao"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_07fxx17" sourceRef="Gateway_04kn9ty" targetRef="Activity_0ey5utg">
+    <bpmn:sequenceFlow id="Flow_07fxx17" sourceRef="Gateway_04kn9ty" targetRef="Gateway_10lp908">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operacao=="subtracao"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0k17rw9" sourceRef="Gateway_04kn9ty" targetRef="Activity_0v22z0c">
+    <bpmn:sequenceFlow id="Flow_0k17rw9" sourceRef="Gateway_04kn9ty" targetRef="Gateway_10lp908">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operacao=="multiplicacao"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0b2ixkw" sourceRef="Gateway_04kn9ty" targetRef="Activity_0p2ylr0">
+    <bpmn:sequenceFlow id="Flow_0b2ixkw" sourceRef="Gateway_04kn9ty" targetRef="Gateway_10lp908">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operacao=="divisao"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_10lp908">
       <bpmn:incoming>Flow_1vzkl9c</bpmn:incoming>
-      <bpmn:incoming>Flow_0igv6mp</bpmn:incoming>
-      <bpmn:incoming>Flow_1uy4dlq</bpmn:incoming>
-      <bpmn:incoming>Flow_00d8ajo</bpmn:incoming>
+      <bpmn:incoming>Flow_0b2ixkw</bpmn:incoming>
+      <bpmn:incoming>Flow_07fxx17</bpmn:incoming>
+      <bpmn:incoming>Flow_0k17rw9</bpmn:incoming>
       <bpmn:outgoing>Flow_123rgg8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1vzkl9c" sourceRef="Activity_12j1uzx" targetRef="Gateway_10lp908" />
-    <bpmn:sequenceFlow id="Flow_0igv6mp" sourceRef="Activity_0ey5utg" targetRef="Gateway_10lp908" />
-    <bpmn:sequenceFlow id="Flow_1uy4dlq" sourceRef="Activity_0v22z0c" targetRef="Gateway_10lp908" />
-    <bpmn:sequenceFlow id="Flow_00d8ajo" sourceRef="Activity_0p2ylr0" targetRef="Gateway_10lp908" />
+    <bpmn:sequenceFlow id="Flow_1vzkl9c" sourceRef="Calculadora" targetRef="Gateway_10lp908" />
     <bpmn:sequenceFlow id="Flow_123rgg8" sourceRef="Gateway_10lp908" targetRef="Activity_1r8v9og" />
     <bpmn:userTask id="Activity_1r8v9og" name="Formulário com resultado">
       <bpmn:extensionElements>
@@ -70,29 +67,9 @@
       <bpmn:outgoing>Flow_0rhprrj</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_0rhprrj" sourceRef="Activity_1r8v9og" targetRef="Event_0ekjs96" />
-    <bpmn:scriptTask id="Activity_0v22z0c" name="Multiplicação" scriptFormat="Javascript">
-      <bpmn:incoming>Flow_0k17rw9</bpmn:incoming>
-      <bpmn:outgoing>Flow_1uy4dlq</bpmn:outgoing>
-      <bpmn:script>var A = execution.getVariable("A")
-var B = execution.getVariable("B")
-
-execution.setVariable("resultado", A * B)</bpmn:script>
-    </bpmn:scriptTask>
-    <bpmn:scriptTask id="Activity_0p2ylr0" name="Divisão" scriptFormat="Javascript">
-      <bpmn:incoming>Flow_0b2ixkw</bpmn:incoming>
-      <bpmn:outgoing>Flow_00d8ajo</bpmn:outgoing>
-      <bpmn:script>var A = execution.getVariable("A")
-var B = execution.getVariable("B")
-
-execution.setVariable("resultado", A / B)</bpmn:script>
-    </bpmn:scriptTask>
-    <bpmn:serviceTask id="Activity_12j1uzx" name="Adição" camunda:class="com.example.primeiro.SomaDelegate">
+    <bpmn:serviceTask id="Calculadora" name="Operações&#10;&#10;" camunda:type="external" camunda:topic="calculadora">
       <bpmn:incoming>Flow_1kyit9w</bpmn:incoming>
       <bpmn:outgoing>Flow_1vzkl9c</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_0ey5utg" name="Subtração" camunda:class="com.example.primeiro.SubtracaoDelegate">
-      <bpmn:incoming>Flow_07fxx17</bpmn:incoming>
-      <bpmn:outgoing>Flow_0igv6mp</bpmn:outgoing>
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -105,39 +82,21 @@ execution.setVariable("resultado", A / B)</bpmn:script>
         <di:waypoint x="695" y="120" />
         <di:waypoint x="730" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_00d8ajo_di" bpmnElement="Flow_00d8ajo">
-        <di:waypoint x="610" y="450" />
-        <di:waypoint x="670" y="450" />
-        <di:waypoint x="670" y="145" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1uy4dlq_di" bpmnElement="Flow_1uy4dlq">
-        <di:waypoint x="610" y="340" />
-        <di:waypoint x="670" y="340" />
-        <di:waypoint x="670" y="145" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0igv6mp_di" bpmnElement="Flow_0igv6mp">
-        <di:waypoint x="610" y="230" />
-        <di:waypoint x="670" y="230" />
-        <di:waypoint x="670" y="145" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1vzkl9c_di" bpmnElement="Flow_1vzkl9c">
         <di:waypoint x="610" y="120" />
         <di:waypoint x="645" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0b2ixkw_di" bpmnElement="Flow_0b2ixkw">
-        <di:waypoint x="440" y="145" />
-        <di:waypoint x="440" y="450" />
-        <di:waypoint x="510" y="450" />
+        <di:waypoint x="465" y="120" />
+        <di:waypoint x="645" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0k17rw9_di" bpmnElement="Flow_0k17rw9">
-        <di:waypoint x="440" y="145" />
-        <di:waypoint x="440" y="340" />
-        <di:waypoint x="510" y="340" />
+        <di:waypoint x="465" y="120" />
+        <di:waypoint x="645" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_07fxx17_di" bpmnElement="Flow_07fxx17">
-        <di:waypoint x="440" y="145" />
-        <di:waypoint x="440" y="230" />
-        <di:waypoint x="510" y="230" />
+        <di:waypoint x="465" y="120" />
+        <di:waypoint x="645" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1kyit9w_di" bpmnElement="Flow_1kyit9w">
         <di:waypoint x="465" y="120" />
@@ -169,17 +128,8 @@ execution.setVariable("resultado", A / B)</bpmn:script>
       <bpmndi:BPMNShape id="Activity_0bntzdo_di" bpmnElement="Activity_1r8v9og">
         <dc:Bounds x="730" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0qes2yx_di" bpmnElement="Activity_0v22z0c">
-        <dc:Bounds x="510" y="300" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0dzihu5_di" bpmnElement="Activity_0p2ylr0">
-        <dc:Bounds x="510" y="410" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0bxnemi_di" bpmnElement="Activity_12j1uzx">
+      <bpmndi:BPMNShape id="Activity_0bxnemi_di" bpmnElement="Calculadora">
         <dc:Bounds x="510" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0r45daf_di" bpmnElement="Activity_0ey5utg">
-        <dc:Bounds x="510" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
