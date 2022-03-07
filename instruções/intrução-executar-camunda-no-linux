@@ -1,0 +1,30 @@
+baixar o camunda modeler em:
+https://camunda.com/download/modeler/
+
+
+Instalar o plugin de mostrar o fluxo de processo:
+
+baixar o plugin do seguinte link:
+https://github.com/bpmn-io/bpmn-js-token-simulation-plugin
+OU
+pegar o arquivo que vai estar nesse repositório git.
+nome arquivo: plugin-acompanhar-fluxo
+descompacar (se necessário)
+colar o arquivo dentro do seguinte caminho:
+/camunda-modeler-4.12.0-linux-x64/resources/plugins
+
+
+
+
+Camunda no linux, como executar:
+
+1- Descompactar o arquivo de instalação
+2- abrir o terminal na pasta do arquivo
+3- digitar os seguintes comando:
+
+chmod +x camunda-modeler    --> esse comando "transforma" o arquivo em executavel
+./camunda-modeler  --> vai executar o camunda modeler
+
+obs: não fechar o terminal.
+
+
